@@ -1,5 +1,5 @@
 {
-  "name": "generator-polymer",
+  "name": "generator-polymer-minimal",
   "version": "0.7.2",
   "description": "Scaffold out a Polymer project",
   "keywords": [
@@ -11,7 +11,7 @@
   ],
   "author": "Chrome Developer Relations",
   "main": "app/index.js",
-  "repository": "yeoman/generator-polymer",
+  "repository": "hubgit/generator-polymer",
   "scripts": {
     "test": "jshint {app,el,gh,seed}/*.js && mocha --reporter spec"
   },

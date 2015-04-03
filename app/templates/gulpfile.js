@@ -87,7 +87,7 @@ gulp.task('copy', function () {
   var app = gulp.src([
     'app/*',
     '!app/test',
-    'node_modules/apache-server-configs/dist/.htaccess'
+    //'node_modules/apache-server-configs/dist/.htaccess'
   ], {
     dot: true
   }).pipe(gulp.dest('dist'));
@@ -122,18 +122,18 @@ gulp.task('html', function () {
     .pipe($.if('*.html', $.replace('elements/elements.html', 'elements/elements.vulcanized.html')))
     .pipe(assets)
     // Concatenate And Minify JavaScript
-    .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
+    //.pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
     // Concatenate And Minify Styles
     // In case you are still using useref build blocks
-    .pipe($.if('*.css', $.cssmin()))
+    //.pipe($.if('*.css', $.cssmin()))
     .pipe(assets.restore())
     .pipe($.useref())
     // Minify Any HTML
-    .pipe($.if('*.html', $.minifyHtml({
+    /*.pipe($.if('*.html', $.minifyHtml({
       quotes: true,
       empty: true,
       spare: true
-    })))
+    })))*/
     // Output Files
     .pipe(gulp.dest('dist'))
     .pipe($.size({title: 'html'}));
@@ -146,7 +146,7 @@ gulp.task('vulcanize', function () {
   return gulp.src('dist/elements/elements.vulcanized.html')
     .pipe($.vulcanize({
       dest: DEST_DIR,
-      strip: true,
+      strip: false,
       inline: true
     }))
     .pipe(gulp.dest(DEST_DIR))
@@ -177,7 +177,7 @@ gulp.task('serve', ['styles', 'elements'], function () {
   gulp.watch(['app/elements/**/*.{scss,css}'], ['elements', reload]);<% } else { %>
   gulp.watch(['app/styles/**/*.css'], ['styles', reload]);
   gulp.watch(['app/elements/**/*.css'], ['elements', reload]);<% } %>
-  gulp.watch(['app/{scripts,elements}/**/*.js'], ['jshint']);
+  gulp.watch(['app/elements/**/*.js'], ['jshint', reload]);
   gulp.watch(['app/images/**/*'], reload);
 });
 
@@ -198,7 +198,7 @@ gulp.task('default', ['clean'], function (cb) {
   runSequence(
     ['copy', 'styles'],
     'elements',
-    ['jshint', 'images', 'fonts', 'html'],
+    ['jshint', 'html'],
     'vulcanize',
     cb);
 });

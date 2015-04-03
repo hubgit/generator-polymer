@@ -28,23 +28,28 @@ module.exports = yeoman.generators.Base.extend({
         name: 'includeGulp',
         message: 'Would you prefer Gulp or Grunt?',
         type: 'list',
-        choices: ['Gulp', 'Grunt']
+        choices: ['Gulp', 'Grunt'],
+        default: 'Gulp'
       }, {
         name: 'includeCore',
         message: 'Would you like to include core-elements?',
-        type: 'confirm'
+        type: 'confirm',
+        default: true
       }, {
         name: 'includePaper',
         message: 'Would you like to include paper-elements?',
-        type: 'confirm'
+        type: 'confirm',
+        default: false
       }, {
         name: 'includeSass',
         message: 'Would you like to use SASS/SCSS for element styles?',
-        type: 'confirm'
+        type: 'confirm',
+        default: false
       }, {
         name: 'includeWCT',
         message: 'Would you like to include web-component-tester?',
-        type: 'confirm'
+        type: 'confirm',
+        default: false
       }];
 
     this.prompt(prompts, function (answers) {
@@ -72,7 +77,9 @@ module.exports = yeoman.generators.Base.extend({
     this.copy('gitattributes', '.gitattributes');
     this.copy('bowerrc', '.bowerrc');
     this.copy('bower.json', 'bower.json');
-    this.copy('wct.conf.js', 'wct.conf.js');
+    if (this.includeWCT) {
+      this.copy('wct.conf.js', 'wct.conf.js');
+    }
     this.copy('jshintrc', '.jshintrc');
     this.copy('editorconfig', '.editorconfig');
     if (this.includeGulp) {
@@ -82,27 +89,27 @@ module.exports = yeoman.generators.Base.extend({
     }
     this.template('_package.json', 'package.json');
     this.mkdir('app');
-    this.mkdir('app/styles');
-    this.mkdir('app/images');
-    this.mkdir('app/scripts');
+    //this.mkdir('app/styles');
+    //this.mkdir('app/images');
+    //this.mkdir('app/scripts');
     this.mkdir('app/elements');
-    this.template('app/404.html');
-    this.template('app/favicon.ico');
-    this.template('app/robots.txt');
-    this.copy('app/main.css',
-      this.includeSass ? 'app/styles/main.scss':
-                         'app/styles/main.css');
-    this.copy('app/app.js', 'app/scripts/app.js');
-    this.copy('app/htaccess', 'app/.htaccess');
+    //this.template('app/404.html');
+    //this.template('app/favicon.ico');
+    //this.template('app/robots.txt');
+    //this.copy('app/main.css',
+    //  this.includeSass ? 'app/styles/main.scss':
+    //                     'app/styles/main.css');
+    //this.copy('app/app.js', 'app/scripts/app.js');
+    //this.copy('app/htaccess', 'app/.htaccess');
     this.copy('app/elements.html', 'app/elements/elements.html');
-    this.copy('app/yo-list.html', 'app/elements/yo-list/yo-list.html');
-    this.copy('app/yo-list.css',
-      this.includeSass ? 'app/elements/yo-list/yo-list.scss':
-                         'app/elements/yo-list/yo-list.css');
-    this.copy('app/yo-greeting.html', 'app/elements/yo-greeting/yo-greeting.html');
-    this.copy('app/yo-greeting.css',
-      this.includeSass ? 'app/elements/yo-greeting/yo-greeting.scss':
-                         'app/elements/yo-greeting/yo-greeting.css');
+    //this.copy('app/yo-list.html', 'app/elements/yo-list/yo-list.html');
+    //this.copy('app/yo-list.css',
+    //  this.includeSass ? 'app/elements/yo-list/yo-list.scss':
+    //                     'app/elements/yo-list/yo-list.css');
+    //this.copy('app/yo-greeting.html', 'app/elements/yo-greeting/yo-greeting.html');
+    //this.copy('app/yo-greeting.css',
+    //  this.includeSass ? 'app/elements/yo-greeting/yo-greeting.scss':
+    //                     'app/elements/yo-greeting/yo-greeting.css');
     this.copy('app/index.html', 'app/index.html');
     if (this.includeWCT) {
       this.directory('test', 'app/test');
